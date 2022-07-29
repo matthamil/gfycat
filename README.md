@@ -2,7 +2,7 @@
 
 ![npm](https://img.shields.io/npm/v/gfycat?color=blue) ![GitHub](https://img.shields.io/github/license/matthamil/gfycat?color=blue) [![CircleCI](https://dl.circleci.com/status-badge/img/gh/matthamil/gfycat/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/matthamil/gfycat/tree/main)
 
-Unofficial JavaScript API wrapper written in TypeScript for [Gfycat.com](https://gfycat.com/) API for Node.
+Unofficial Node JavaScript API wrapper written in TypeScript for [Gfycat.com](https://gfycat.com/) API.
 
 ## Table of Contents
 
