@@ -21,6 +21,10 @@
     "sdk"
   ],
   "license": "MIT",
+  "np": {
+    "yarn": false,
+    "contents": "dist"
+  },
   "devDependencies": {
     "@types/debug": "^4.1.7",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
