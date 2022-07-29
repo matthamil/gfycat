@@ -36,7 +36,7 @@ You can enable logging by setting the `DEBUG` environment variable to `gfycat`, 
 
 ## Features
 
-This is a work-in-progress SDK. Not all APIs are implemented. The full list of available Gfycat API endpoints can be found in the [Gfycat API documentation](https://developers.gfycat.com/api/#introduction).
+This is a work-in-progress SDK. Not all APIs are implemented. The list documented Gfycat API endpoints can be found in the [Gfycat API documentation](https://developers.gfycat.com/api/#introduction).
 
 ### Authentication
 
