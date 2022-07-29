@@ -1,6 +1,7 @@
 export type LanguageCategory = 'trending' | string;
 
 export type NsfwCode = 0 | 1 | 3;
+export type PublishedStatus = 0 | 1;
 
 export interface Gfycat {
   avgColor: string;
@@ -139,28 +140,32 @@ export interface GfycatCaption {
   yRelative?: number;
 }
 
+export interface CutOptions {
+  duration: number;
+  start: number;
+}
+
+export interface CropOptions {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
 export interface CreateGfycatRequest {
   fetchUrl?: string;
   title?: string;
   description?: string;
   tags?: string[];
   noMd5?: 'true' | 'false';
-  private?: 0 | 1;
+  private?: PublishedStatus;
   nsfw?: NsfwCode;
   fetchSeconds?: number;
   fetchMinutes?: number;
   fetchHours?: number;
   captions?: GfycatCaption[];
-  cut?: {
-    duration: number;
-    start: number;
-  };
-  crop?: {
-    x: number;
-    y: number;
-    w: number;
-    h: number;
-  };
+  cut?: CutOptions;
+  crop?: CropOptions;
 }
 
 export type GfycatStatusResponse =
