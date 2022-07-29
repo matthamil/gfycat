@@ -1,7 +1,7 @@
 {
-  "name": "gfycat-ts-sdk",
+  "name": "gfycat",
   "version": "0.0.0",
-  "description": "Gfycat client written in TypeScript",
+  "description": "Gfycat client written in TypeScript. Not an official Gfycat SDK.",
   "main": "dist/index.js",
   "scripts": {
     "build": "rm -rf dist && tsup --format esm,cjs && tsup --dts",
@@ -10,6 +10,7 @@
     "format": "npx prettier --write \"**/*.+(js|ts|json)\"",
     "start": "tsup index.ts --watch --onSuccess\"node dist/index.js\"",
     "test": "npm run typecheck && npm run format && npm run build",
+    "pre:release": "npm run test",
     "release": "np"
   },
   "author": "Matt Hamil <j.matthew.hamil@gmail.com>",
