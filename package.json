@@ -8,8 +8,8 @@
     "typecheck": "npx tsc **/*.ts --noEmit",
     "lint": "npx eslint --ext .js,.ts --cache --fix .",
     "format": "npx prettier --write \"**/*.+(js|ts|json)\"",
-    "start": "tsup index.ts --watch --onSuccess\"node dist/index.js\"",
-    "test": "npm run typecheck && npm run format && npm run build"
+    "check-format": "npx prettier --check \"**/*.+(js|ts|json)\"",
+    "test": "npm run typecheck && npm run check-format && npm run build"
   },
   "author": "Matt Hamil <j.matthew.hamil@gmail.com>",
   "keywords": [
