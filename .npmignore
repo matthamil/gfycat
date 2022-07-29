@@ -1,7 +1,6 @@
 examples
 .prettierrc
 .prettierignore
-README.md
 tsconfig.eslint.json
 tsconfig.json
 tsup.config.ts
@@ -11,5 +10,4 @@ tsup.config.ts
 .eslintcache
 .env
 node_modules
-LICENSE
 src
