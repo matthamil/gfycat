@@ -38,7 +38,7 @@ You can enable logging by setting the `DEBUG` environment variable to `gfycat`, 
 
 This is a work-in-progress SDK. Not all APIs are implemented. The list documented Gfycat API endpoints can be found in the [Gfycat API documentation](https://developers.gfycat.com/api/#introduction).
 
-### Authentication
+#### Authentication
 
 - [x] [Client Credentials Grant](https://developers.gfycat.com/api/#client-credentials-grant) (currently, the GfyatClient only uses password grant authentication)
 - [x] [Password Grant Authentication](https://developers.gfycat.com/api/#password-grant)
@@ -48,7 +48,7 @@ This is a work-in-progress SDK. Not all APIs are implemented. The list documente
 - [ ] [Send verification email](https://developers.gfycat.com/api/#sending-an-email-verification-request)
 - [ ] [Send a password reset email](https://developers.gfycat.com/api/#send-a-password-reset-email)
 
-### Users
+#### Users
 
 - [ ] [Getting a user's public details](https://developers.gfycat.com/api/#getting-the-user-s-public-details)
 - [ ] [Getting authenticated user's details](https://developers.gfycat.com/api/#getting-the-authenticated-user-s-details)
@@ -62,13 +62,13 @@ This is a work-in-progress SDK. Not all APIs are implemented. The list documente
 - [ ] [List all users following you](https://developers.gfycat.com/api/#listing-all-users-following-you)
 - [x] Get all of your likes
 
-### User Feeds
+#### User Feeds
 
 - [ ] [Listing the the feed of published gfycats for a user](https://developers.gfycat.com/api/#listing-the-the-feed-of-published-gfycats-for-a-user)
 - [ ] [Listing the the private feed of all gfycats for a user](https://developers.gfycat.com/api/#listing-the-the-private-feed-of-all-gfycats-for-a-user)
 - [ ] [Listing the timeline feed of all users you follow](https://developers.gfycat.com/api/#listing-the-timeline-feed-of-all-users-you-follow)
 
-### Collections
+#### Collections
 
 > The collections APIs are undocumented.
 
@@ -77,7 +77,7 @@ This is a work-in-progress SDK. Not all APIs are implemented. The list documente
 - [x] Remove from a collection
 - [x] Delete a collection
 
-### Gfycat
+#### Gfycat
 
 - [x] [Getting info for a single gfycat](https://developers.gfycat.com/api/#getting-info-for-a-single-gfycat)
     - [x] Get number of likes
@@ -104,13 +104,13 @@ This is a work-in-progress SDK. Not all APIs are implemented. The list documente
     - [ ] Update/replace gfycat nsfw flag
     - [ ] Delete a gfycat
 
-### Trending Feeds
+#### Trending Feeds
 
 - [ ] [Trending Gfycats](https://developers.gfycat.com/api/#trending-gfycats)
 - [ ] [Algorithmically Trending Gfycats](https://developers.gfycat.com/api/#algorithmically-trending-gfycats)
 - [ ] [Algorithmically Trending Tags](https://developers.gfycat.com/api/#algorithmically-trending-tags)
 
-### Search
+#### Search
 
 - [ ] [Search Gfycats](https://developers.gfycat.com/api/#site-search)
 - [ ] [User account search](https://developers.gfycat.com/api/#user-account-search)
