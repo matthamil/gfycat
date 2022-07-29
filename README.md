@@ -1,6 +1,6 @@
 ## gfycat
 
-![npm](https://img.shields.io/npm/v/gfycat?color=blue&style=flat-square) ![GitHub](https://img.shields.io/github/license/matthamil/gfycat?color=brightgreen&style=flat-square) [![CircleCI](https://dl.circleci.com/status-badge/img/gh/matthamil/gfycat/tree/main.svg?style=flat-square)](https://dl.circleci.com/status-badge/redirect/gh/matthamil/gfycat/tree/main)
+![npm](https://img.shields.io/npm/v/gfycat?color=blue) ![GitHub](https://img.shields.io/github/license/matthamil/gfycat?color=blue) [![CircleCI](https://dl.circleci.com/status-badge/img/gh/matthamil/gfycat/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/matthamil/gfycat/tree/main)
 
 Unofficial TypeScript API wrapper for [Gfycat.com](https://gfycat.com/) API for Node.
 
