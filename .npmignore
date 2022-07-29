@@ -12,3 +12,4 @@ tsup.config.ts
 .env
 node_modules
 LICENSE
+src
