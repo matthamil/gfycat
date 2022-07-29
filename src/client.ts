@@ -158,9 +158,6 @@ export class GfycatClient {
     }
   };
 
-  /**
-   * Requests and a JSON object containing information about a specified gfyname.
-   */
   getGfycatInfo = async (gfyId: string) => {
     const res = await this.httpClient.get<Gfycat.GfycatResponse>(
       `/gfycats/${gfyId}`,
@@ -210,7 +207,7 @@ export class GfycatClient {
   };
 
   /**
-   * Generates an "empty" gfyname (i.e. there will not be any media at that URL).
+   * Register an empty gfyname that can later have media associated with it
    */
   private getEmptyGfyname = async ({
     title,

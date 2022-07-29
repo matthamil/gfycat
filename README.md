@@ -1,8 +1,8 @@
 ## gfycat
 
-![npm](https://img.shields.io/npm/v/gfycat?style=flat-square)
+![npm](https://img.shields.io/npm/v/gfycat?style=flat-square) ![GitHub](https://img.shields.io/github/license/matthamil/gfycat?style=flat-square)
 
-Unofficial TypeScript API wrapper for Gfycat.com API for Node.
+Unofficial TypeScript API wrapper for [Gfycat.com](https://gfycat.com/) API for Node.
 
 ## Table of Contents
 
