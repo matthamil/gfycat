@@ -3,15 +3,12 @@ import axios, { Axios, AxiosError, AxiosResponse } from 'axios';
 import { stringify } from 'query-string';
 import { promises as fs } from 'fs';
 import * as Gfycat from './api.types';
+import { sleep, isExpired } from './utils';
 
 interface AuthToken {
   token: string;
   expiresAt: number;
 }
-
-const isExpired = (ms = 0) => ms >= Date.now();
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export class GfycatClient {
   private readonly clientId: string;
@@ -19,6 +16,7 @@ export class GfycatClient {
   private readonly username: string;
   private readonly password: string;
   private readonly httpClient: Axios;
+  private readonly log: debug.Debugger;
   private accessToken: AuthToken | undefined;
   private refreshToken: AuthToken | undefined;
 
@@ -41,13 +39,17 @@ export class GfycatClient {
       baseURL: 'https://api.gfycat.com/v1',
     });
 
-    const log = debug('gfycat');
+    this.log = debug('gfycat');
 
     this.httpClient.interceptors.request.use(async (config) => {
-      log(
-        `${config.method?.toUpperCase().concat(' | ') ?? ''}${
-          config.url ?? config.baseURL ?? ''
-        }` || 'request'
+      this.log(
+        [
+          new Date().toISOString(),
+          config.method?.toUpperCase(),
+          config.url ?? config.baseURL,
+        ]
+          .filter(Boolean)
+          .join(' | ')
       );
 
       // urls that do not need authentication
@@ -72,11 +74,19 @@ export class GfycatClient {
     });
 
     this.httpClient.interceptors.response.use((config) => {
-      log(
-        `${config.status}${
-          config.data ? ' | ' + '\n' + JSON.stringify(config.data, null, 2) : ''
-        }`
-      );
+      if (debug.enabled('gfycat')) {
+        let data: string | undefined;
+        try {
+          data = JSON.stringify(config.data);
+        } catch (err) {
+          // ignore any TypeErrors thrown by JSON.stringify
+        }
+        this.log(
+          [new Date().toISOString(), config.status, data]
+            .filter(Boolean)
+            .join(' | ')
+        );
+      }
       return config;
     });
   }
@@ -114,17 +124,13 @@ export class GfycatClient {
     const res = await this.httpClient.post<
       Gfycat.OauthTokenPasswordGrantRequest,
       AxiosResponse<Gfycat.OauthTokenPasswordGrantResponse>
-    >(
-      '/oauth/token',
-      {
-        grant_type: 'password',
-        client_id: this.clientId,
-        client_secret: this.clientSecret,
-        username: this.username,
-        password: this.password,
-      },
-      {}
-    );
+    >('/oauth/token', {
+      grant_type: 'password',
+      client_id: this.clientId,
+      client_secret: this.clientSecret,
+      username: this.username,
+      password: this.password,
+    });
 
     this.accessToken = {
       token: res.data.access_token,
@@ -172,10 +178,13 @@ export class GfycatClient {
     count: number;
     cursor?: string;
   }) => {
-    const query = stringify({
-      count,
-      cursor,
-    });
+    const query = stringify(
+      {
+        count,
+        cursor,
+      },
+      { skipEmptyString: true }
+    );
     const url = `/users/${userId}/gfycats` + query ? `?${query}` : '';
     const { data } = await this.httpClient.get<Gfycat.GfycatsResponse>(url);
     return data;
@@ -188,10 +197,13 @@ export class GfycatClient {
     count?: number;
     cursor?: string;
   }) => {
-    const query = stringify({
-      count,
-      cursor,
-    });
+    const query = stringify(
+      {
+        count,
+        cursor,
+      },
+      { skipEmptyString: true }
+    );
     const url = `/me/gfycats` + query ? `?${query}` : '';
     const { data } = await this.httpClient.get<Gfycat.GfycatsResponse>(url);
     return data;
@@ -314,8 +326,7 @@ export class GfycatClient {
       await poll();
     } catch (err) {
       if (err instanceof AxiosError && err.code === 'ECONNABORTED') {
-        // request timed out
-        console.log('polling request timed out');
+        this.log(`status polling request timed out for gfyId ${name}`);
       }
     }
   };
@@ -381,10 +392,13 @@ export class GfycatClient {
     count?: number;
     cursor?: string;
   }) => {
-    const query = stringify({
-      count,
-      cursor,
-    });
+    const query = stringify(
+      {
+        count,
+        cursor,
+      },
+      { skipEmptyString: true }
+    );
     const url = `/me/likes/populated` + query ? `?${query}` : '';
     const { data } = await this.httpClient.get<Gfycat.MyLikesResponse>(url);
     return data;
