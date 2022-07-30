@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "rm -rf dist && tsup --format esm,cjs && tsup --dts",
+    "watch": "rm -rf dist && tsup --dts && tsup --format esm,cjs --watch",
     "typecheck": "npx tsc **/*.ts --noEmit",
     "lint": "npx eslint --ext .js,.ts --cache --fix .",
     "format": "npx prettier --write \"**/*.+(js|ts|json)\"",

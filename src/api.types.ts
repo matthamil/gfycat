@@ -82,6 +82,44 @@ export interface GfycatsResponse {
   gfycats: Gfycat[];
 }
 
+export interface GfycatCollection {
+  contentCount: number;
+  createDate: number;
+  folderId: string;
+  folderName: string;
+  folderSubType: 'Album' | string;
+  linkText: string;
+  nsfw: NsfwCode;
+  parentId: string;
+  posterGfycat: Gfycat;
+  published: PublishedStatus;
+  userId: string;
+}
+
+export interface GfycatBookmarkCollection {
+  contentCount: number;
+  folderId: 'saved';
+  folderName: 'bookmarks';
+  userId: string;
+}
+
+export interface UserCollectionsResponse {
+  count: number;
+  cursor: string;
+  gfyBookmarkCollection: GfycatBookmarkCollection;
+  gfyCollections: GfycatCollection[];
+  status: 'ok' | string;
+  totalCount: number;
+}
+
+export interface CollectionGfycatsResponse {
+  count: number;
+  status: 'ok' | string;
+  totalCount: number;
+  cursor: string;
+  gfycats: Gfycat[];
+}
+
 export interface GfycatResponse {
   gfyItem: Gfycat;
 }

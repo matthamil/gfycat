@@ -5,5 +5,6 @@ export default defineConfig((opts) => ({
   splitting: false,
   sourcemap: true,
   clean: true,
+  watch: opts.watch,
   minify: !opts.watch,
 }));
