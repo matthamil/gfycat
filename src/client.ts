@@ -345,6 +345,55 @@ export class GfycatClient {
     return gfy.likes;
   };
 
+  getUserCollections = async ({
+    username,
+    count = 30,
+    cursor,
+  }: {
+    username: string;
+    count?: number;
+    cursor?: string;
+  }) => {
+    const query = stringify(
+      {
+        count,
+        cursor,
+      },
+      { skipEmptyString: true }
+    );
+    const url = `/users/${username}/collections${query ? `?${query}` : ''}`;
+    const { data } = await this.httpClient.get<Gfycat.UserCollectionsResponse>(
+      url
+    );
+    return data;
+  };
+
+  getUserCollectionGfycats = async ({
+    username,
+    collectionId,
+    count = 30,
+    cursor,
+  }: {
+    username: string;
+    collectionId: string;
+    count?: number;
+    cursor?: string;
+  }) => {
+    const query = stringify(
+      {
+        count,
+        cursor,
+      },
+      { skipEmptyString: true }
+    );
+    const url = `/users/${username}/collections/${collectionId}/gfycats${
+      query ? `?${query}` : ''
+    }`;
+    const { data } =
+      await this.httpClient.get<Gfycat.CollectionGfycatsResponse>(url);
+    return data;
+  };
+
   createCollection = async (input: Gfycat.MyCollectionInput) => {
     const { data } = await this.httpClient.post<Gfycat.MyCollectionResponse>(
       '/me/collections',
@@ -396,7 +445,7 @@ export class GfycatClient {
       },
       { skipEmptyString: true }
     );
-    const url = `/me/likes/populated` + query ? `?${query}` : '';
+    const url = `/me/likes/populated${query ? `?${query}` : ''}`;
     const { data } = await this.httpClient.get<Gfycat.MyLikesResponse>(url);
     return data;
   };
