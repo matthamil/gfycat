@@ -120,7 +120,7 @@ export class GfycatClient {
   /**
    * Requests a new access token and refresh token
    */
-  authenticate = async () => {
+  private authenticate = async () => {
     const res = await this.httpClient.post<
       Gfycat.OauthTokenPasswordGrantRequest,
       AxiosResponse<Gfycat.OauthTokenPasswordGrantResponse>
