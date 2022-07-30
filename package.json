@@ -1,6 +1,6 @@
 {
   "name": "gfycat",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Gfycat client written in TypeScript. Not an official Gfycat SDK.",
   "main": "dist/index.js",
   "scripts": {
