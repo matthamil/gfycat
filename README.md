@@ -76,6 +76,8 @@ This is a work-in-progress SDK. Not all APIs are implemented. The list of docume
 - [x] Add to a collection
 - [x] Remove from a collection
 - [x] Delete a collection
+- [x] Get a user's collections
+- [x] Get gfycats in a collection
 
 #### Gfycat
 
