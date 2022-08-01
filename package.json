@@ -1,6 +1,6 @@
 {
   "name": "gfycat",
-  "version": "0.0.4",
+  "version": "0.0.0-development",
   "description": "Gfycat client written in TypeScript. Not an official Gfycat SDK.",
   "main": "dist/index.js",
   "scripts": {
@@ -10,7 +10,9 @@
     "lint": "npx eslint --ext .js,.ts --cache --fix .",
     "format": "npx prettier --write \"**/*.+(js|ts|json)\"",
     "check-format": "npx prettier --check \"**/*.+(js|ts|json)\"",
-    "test": "npm run typecheck && npm run check-format && npm run build"
+    "test": "npm run typecheck && npm run check-format && npm run build",
+    "semantic-release": "semantic-release",
+    "commit": "npx cz"
   },
   "author": "Matt Hamil <j.matthew.hamil@gmail.com>",
   "keywords": [
@@ -26,13 +28,20 @@
     "url": "https://github.com/matthamil/gfycat"
   },
   "license": "MIT",
+  "release": {
+    "branches": [
+      "main"
+    ]
+  },
   "devDependencies": {
     "@types/debug": "^4.1.7",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "@typescript-eslint/parser": "^5.31.0",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.20.0",
     "eslint-config-prettier": "^8.5.0",
     "prettier": "^2.7.1",
+    "semantic-release": "^19.0.3",
     "tsup": "^6.2.0",
     "typescript": "^4.7.4"
   },
@@ -41,5 +50,10 @@
     "axios": "^0.27.2",
     "debug": "^4.3.4",
     "query-string": "^7.1.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
