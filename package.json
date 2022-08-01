@@ -1,6 +1,6 @@
 {
   "name": "gfycat",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Gfycat client written in TypeScript. Not an official Gfycat SDK.",
   "main": "dist/index.js",
   "scripts": {
@@ -19,6 +19,12 @@
     "api",
     "sdk"
   ],
+  "homepage": "https://github.com/matthamil/gfycat",
+  "bugs": "https://github.com/matthamil/gfycat/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/matthamil/gfycat"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/debug": "^4.1.7",
