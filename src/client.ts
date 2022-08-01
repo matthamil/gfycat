@@ -182,7 +182,7 @@ export class GfycatClient {
       },
       { skipEmptyString: true }
     );
-    const url = `/users/${userId}/gfycats` + query ? `?${query}` : '';
+    const url = `/users/${userId}/gfycats${query ? `?${query}` : ''}`;
     const { data } = await this.httpClient.get<Gfycat.GfycatsResponse>(url);
     return data;
   };
@@ -201,7 +201,7 @@ export class GfycatClient {
       },
       { skipEmptyString: true }
     );
-    const url = `/me/gfycats` + query ? `?${query}` : '';
+    const url = `/me/gfycats${query ? `?${query}` : ''}`;
     const { data } = await this.httpClient.get<Gfycat.GfycatsResponse>(url);
     return data;
   };
