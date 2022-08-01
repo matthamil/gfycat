@@ -8,7 +8,8 @@ Unofficial Node JavaScript API wrapper written in TypeScript for [Gfycat.com](ht
 
 - [Install](#development)
 - [Features](#features)
-- [Usage](#deploying)
+- [Usage](#usage)
+- [Contributing](#contributing)
 
 ## Install
 
@@ -116,3 +117,7 @@ This is a work-in-progress SDK. Not all APIs are implemented. The list of docume
 
 - [ ] [Search Gfycats](https://developers.gfycat.com/api/#site-search)
 - [ ] [User account search](https://developers.gfycat.com/api/#user-account-search)
+
+## Contributing
+
+This project uses [commitizen](https://github.com/commitizen/cz-cli) and [semantic-release](https://github.com/semantic-release/semantic-release). When committing, please use `npm run commit` to let commitizen create your commit.
