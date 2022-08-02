@@ -44,10 +44,10 @@ This is a work-in-progress SDK. Not all APIs are implemented. The list of docume
 - [x] [Client Credentials Grant](https://developers.gfycat.com/api/#client-credentials-grant) (currently, the GfyatClient only uses password grant authentication)
 - [x] [Password Grant Authentication](https://developers.gfycat.com/api/#password-grant)
 - [x] [Refreshing access token](https://developers.gfycat.com/api/#refreshing-access-tokens)
-- [ ] [Checking if username is available / exists / is valid](https://developers.gfycat.com/api/#checking-if-the-username-is-available-username-exists-username-is-valid)
-- [ ] [Checking if your user's email is verified or not](https://developers.gfycat.com/api/#checking-if-users-email-is-verified-or-not)
-- [ ] [Send verification email](https://developers.gfycat.com/api/#sending-an-email-verification-request)
-- [ ] [Send a password reset email](https://developers.gfycat.com/api/#send-a-password-reset-email)
+- [x] [Checking if username is available / exists / is valid](https://developers.gfycat.com/api/#checking-if-the-username-is-available-username-exists-username-is-valid)
+- [x] [Checking if your user's email is verified or not](https://developers.gfycat.com/api/#checking-if-users-email-is-verified-or-not)
+- [x] [Send verification email](https://developers.gfycat.com/api/#sending-an-email-verification-request)
+- [x] [Send a password reset email](https://developers.gfycat.com/api/#send-a-password-reset-email)
 
 #### Users
 
