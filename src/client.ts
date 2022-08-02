@@ -158,6 +158,59 @@ export class GfycatClient {
     }
   };
 
+  /**
+   * returns a true if the user exists, false if user does not exist,
+   * and null if the username is invalid
+   * @see https://developers.gfycat.com/api/#checking-if-the-username-is-available-username-exists-username-is-valid
+   */
+  doesUserExist = async (username: string) => {
+    const { status } = await this.httpClient.head(`/users/${username}`, {
+      validateStatus: (status) => status < 500,
+    });
+    if (status === 404) {
+      return false;
+    }
+    if (status === 204) {
+      return true;
+    }
+    return null;
+  };
+
+  /**
+   * @see https://developers.gfycat.com/api/#checking-if-users-email-is-verified-or-not
+   */
+  isEmailVerified = async () => {
+    const { status } = await this.httpClient.get('/me/email_verified', {
+      validateStatus: (status) => status < 500,
+    });
+    return status !== 404;
+  };
+
+  /**
+   * @see https://developers.gfycat.com/api/#sending-an-email-verification-request
+   */
+  sendEmailVerificationRequest = async () => {
+    const { status } = await this.httpClient.post(
+      '/me/send_verification_email',
+      {},
+      {
+        validateStatus: (status) => status < 500,
+      }
+    );
+    return status < 400;
+  };
+
+  /**
+   * @see https://developers.gfycat.com/api/#send-a-password-reset-email
+   */
+  sendPasswordResetEmail = async (usernameOrEmail: string) => {
+    const { status } = await this.httpClient.patch('/users', {
+      value: usernameOrEmail,
+      action: 'send_password_reset_email',
+    });
+    return status < 400;
+  };
+
   getGfycatInfo = async (gfyId: string) => {
     const res = await this.httpClient.get<Gfycat.GfycatResponse>(
       `/gfycats/${gfyId}`,
@@ -387,6 +440,30 @@ export class GfycatClient {
       { skipEmptyString: true }
     );
     const url = `/users/${username}/collections/${collectionId}/gfycats${
+      query ? `?${query}` : ''
+    }`;
+    const { data } =
+      await this.httpClient.get<Gfycat.CollectionGfycatsResponse>(url);
+    return data;
+  };
+
+  getMyCollectionGfycats = async ({
+    collectionId,
+    count = 30,
+    cursor,
+  }: {
+    collectionId: string;
+    count?: number;
+    cursor?: string;
+  }) => {
+    const query = stringify(
+      {
+        count,
+        cursor,
+      },
+      { skipEmptyString: true }
+    );
+    const url = `/me/collections/${collectionId}/gfycats${
       query ? `?${query}` : ''
     }`;
     const { data } =
