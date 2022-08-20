@@ -1,27 +1,29 @@
 ## gfycat
 
-![npm](https://img.shields.io/npm/v/gfycat?color=blue) ![GitHub](https://img.shields.io/github/license/matthamil/gfycat?color=blue) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) [![CircleCI](https://dl.circleci.com/status-badge/img/gh/matthamil/gfycat/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/matthamil/gfycat/tree/main)
+[![npm](https://img.shields.io/npm/v/gfycat?color=blue)](https://www.npmjs.com/package/gfycat) ![GitHub](https://img.shields.io/github/license/matthamil/gfycat?color=blue) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) [![CircleCI](https://dl.circleci.com/status-badge/img/gh/matthamil/gfycat/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/matthamil/gfycat/tree/main)
 
 Unofficial Node JavaScript API wrapper written in TypeScript for [Gfycat.com](https://gfycat.com/) API.
 
+> The [official Gfycat JavaScript client](https://github.com/gfycat/gfycat-sdk) does not expose all available REST endpoints.
+
 ## Table of Contents
 
-- [Install](#development)
-- [Features](#features)
+- [Install](#install)
 - [Usage](#usage)
+- [Features](#features)
 - [Contributing](#contributing)
 
 ## Install
 
 This package requires [Node](https://nodejs.org/) version 14 or higher.
 
-Install with npm
+Install with [npm](https://www.npmjs.com/)
 
 ```
 npm i gfycat
 ```
 
-or yarn
+or [yarn](https://yarnpkg.com/)
 
 ```
 yarn add gfycat
@@ -29,11 +31,11 @@ yarn add gfycat
 
 ## Usage
 
-Follow the steps in the [Gfycat API documentation](https://developers.gfycat.com/api/#quick-start) to obtain a client id and client secret.
-
 See examples in the [`examples`](examples/) directory.
 
-You can enable logging by setting the `DEBUG` environment variable to `gfycat`, i.e. `DEBUG=gfycat`.
+You will need a Gfycat API client id and client secret. Follow the steps in the [Gfycat API documentation](https://developers.gfycat.com/api/#quick-start) to obtain a client id and client secret.
+
+You can enable logging by setting the `DEBUG` environment variable to `gfycat`, i.e. `DEBUG=gfycat` or `DEBUG=*`.
 
 ## Features
 

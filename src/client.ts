@@ -1,9 +1,8 @@
 import debug from 'debug';
 import axios, { Axios, AxiosError, AxiosResponse } from 'axios';
-import { stringify } from 'query-string';
 import { promises as fs } from 'fs';
 import * as Gfycat from './api.types';
-import { sleep, isExpired } from './utils';
+import { sleep, isExpired, stringifyQueryParams } from './utils';
 
 interface AuthToken {
   token: string;
@@ -16,7 +15,7 @@ export class GfycatClient {
   private readonly username: string;
   private readonly password: string;
   private readonly httpClient: Axios;
-  private readonly log: debug.Debugger;
+  private readonly logger: debug.Debugger;
   private accessToken: AuthToken | undefined;
   private refreshToken: AuthToken | undefined;
 
@@ -39,15 +38,11 @@ export class GfycatClient {
       baseURL: 'https://api.gfycat.com/v1',
     });
 
-    this.log = debug('gfycat');
+    this.logger = debug('gfycat');
 
     this.httpClient.interceptors.request.use(async (config) => {
-      this.log(
-        [
-          new Date().toISOString(),
-          config.method?.toUpperCase(),
-          config.url ?? config.baseURL,
-        ]
+      this.logger.log(
+        [config.method?.toUpperCase(), config.url ?? config.baseURL]
           .filter(Boolean)
           .join(' | ')
       );
@@ -74,19 +69,13 @@ export class GfycatClient {
     });
 
     this.httpClient.interceptors.response.use((config) => {
-      if (debug.enabled('gfycat')) {
-        let data: string | undefined;
-        try {
-          data = JSON.stringify(config.data);
-        } catch (err) {
-          // ignore any TypeErrors thrown by JSON.stringify
-        }
-        this.log(
-          [new Date().toISOString(), config.status, data]
-            .filter(Boolean)
-            .join(' | ')
-        );
+      let data: string | undefined;
+      try {
+        data = JSON.stringify(config.data);
+      } catch (err) {
+        // ignore any TypeErrors thrown by JSON.stringify
       }
+      this.logger.log([config.status, data].filter(Boolean).join(' | '));
       return config;
     });
   }
@@ -228,14 +217,13 @@ export class GfycatClient {
     count: number;
     cursor?: string;
   }) => {
-    const query = stringify(
-      {
+    const url = stringifyQueryParams({
+      url: `/users/${userId}/gfycats`,
+      params: {
         count,
         cursor,
       },
-      { skipEmptyString: true }
-    );
-    const url = `/users/${userId}/gfycats${query ? `?${query}` : ''}`;
+    });
     const { data } = await this.httpClient.get<Gfycat.GfycatsResponse>(url);
     return data;
   };
@@ -247,14 +235,13 @@ export class GfycatClient {
     count?: number;
     cursor?: string;
   }) => {
-    const query = stringify(
-      {
+    const url = stringifyQueryParams({
+      url: '/me/gfycats',
+      params: {
         count,
         cursor,
       },
-      { skipEmptyString: true }
-    );
-    const url = `/me/gfycats${query ? `?${query}` : ''}`;
+    });
     const { data } = await this.httpClient.get<Gfycat.GfycatsResponse>(url);
     return data;
   };
@@ -376,7 +363,7 @@ export class GfycatClient {
       await poll();
     } catch (err) {
       if (err instanceof AxiosError && err.code === 'ECONNABORTED') {
-        this.log(`status polling request timed out for gfyId ${name}`);
+        this.logger.log(`status polling request timed out for gfyId ${name}`);
       }
     }
   };
@@ -407,14 +394,13 @@ export class GfycatClient {
     count?: number;
     cursor?: string;
   }) => {
-    const query = stringify(
-      {
+    const url = stringifyQueryParams({
+      url: `/users/${username}/collections`,
+      params: {
         count,
         cursor,
       },
-      { skipEmptyString: true }
-    );
-    const url = `/users/${username}/collections${query ? `?${query}` : ''}`;
+    });
     const { data } = await this.httpClient.get<Gfycat.UserCollectionsResponse>(
       url
     );
@@ -432,16 +418,13 @@ export class GfycatClient {
     count?: number;
     cursor?: string;
   }) => {
-    const query = stringify(
-      {
+    const url = stringifyQueryParams({
+      url: `/users/${username}/collections/${collectionId}/gfycats`,
+      params: {
         count,
         cursor,
       },
-      { skipEmptyString: true }
-    );
-    const url = `/users/${username}/collections/${collectionId}/gfycats${
-      query ? `?${query}` : ''
-    }`;
+    });
     const { data } =
       await this.httpClient.get<Gfycat.CollectionGfycatsResponse>(url);
     return data;
@@ -456,16 +439,13 @@ export class GfycatClient {
     count?: number;
     cursor?: string;
   }) => {
-    const query = stringify(
-      {
+    const url = stringifyQueryParams({
+      url: `/me/collections/${collectionId}/gfycats`,
+      params: {
         count,
         cursor,
       },
-      { skipEmptyString: true }
-    );
-    const url = `/me/collections/${collectionId}/gfycats${
-      query ? `?${query}` : ''
-    }`;
+    });
     const { data } =
       await this.httpClient.get<Gfycat.CollectionGfycatsResponse>(url);
     return data;
@@ -515,14 +495,13 @@ export class GfycatClient {
     count?: number;
     cursor?: string;
   }) => {
-    const query = stringify(
-      {
+    const url = stringifyQueryParams({
+      url: '/me/likes/populated',
+      params: {
         count,
         cursor,
       },
-      { skipEmptyString: true }
-    );
-    const url = `/me/likes/populated${query ? `?${query}` : ''}`;
+    });
     const { data } = await this.httpClient.get<Gfycat.MyLikesResponse>(url);
     return data;
   };
