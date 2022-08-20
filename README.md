@@ -2,9 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/gfycat?color=blue)](https://www.npmjs.com/package/gfycat) ![GitHub](https://img.shields.io/github/license/matthamil/gfycat?color=blue) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) [![CircleCI](https://dl.circleci.com/status-badge/img/gh/matthamil/gfycat/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/matthamil/gfycat/tree/main)
 
-Unofficial Node JavaScript API wrapper written in TypeScript for [Gfycat.com](https://gfycat.com/) API.
-
-> The [official Gfycat JavaScript client](https://github.com/gfycat/gfycat-sdk) does not expose all available REST endpoints.
+Unofficial Node JavaScript API wrapper written in TypeScript for [Gfycat.com](https://gfycat.com/) API. Why an unofficial SDK? The [official Gfycat JavaScript client](https://github.com/gfycat/gfycat-sdk) is incomplete and lacks TypeScript support.
 
 ## Table of Contents
 
