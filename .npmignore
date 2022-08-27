@@ -11,3 +11,6 @@ tsup.config.ts
 .env
 node_modules
 src
+tests
+.circleci
+jest.config.ts

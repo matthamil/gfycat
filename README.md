@@ -41,7 +41,7 @@ This is a work-in-progress SDK. Not all APIs are implemented. The list of docume
 
 #### Authentication
 
-- [x] [Client Credentials Grant](https://developers.gfycat.com/api/#client-credentials-grant) (currently, the GfyatClient only uses password grant authentication)
+- [x] [Client Credentials Grant](https://developers.gfycat.com/api/#client-credentials-grant) (currently, the GfycatClient only uses password grant authentication)
 - [x] [Password Grant Authentication](https://developers.gfycat.com/api/#password-grant)
 - [x] [Refreshing access token](https://developers.gfycat.com/api/#refreshing-access-tokens)
 - [x] [Checking if username is available / exists / is valid](https://developers.gfycat.com/api/#checking-if-the-username-is-available-username-exists-username-is-valid)
