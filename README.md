@@ -83,29 +83,29 @@ This is a work-in-progress SDK. Not all APIs are implemented. The list of docume
 #### Gfycat
 
 - [x] [Getting info for a single gfycat](https://developers.gfycat.com/api/#getting-info-for-a-single-gfycat)
-    - [x] Get number of likes
+  - [x] Get number of likes
 - [x] Get your Gfycats
 - [x] Get a user's Gfycats
 - [x] [Creating Gfycats](https://developers.gfycat.com/api/#creating-gfycats)
-    - [x] [Fetching a remote url to create a new gfycat](https://developers.gfycat.com/api/#fetching-a-remote-url-to-create-a-new-gfycat)
-    - [x] [Checking the status of your upload](https://developers.gfycat.com/api/#checking-the-status-of-your-upload)
-    - [x] [Uploading a file to create a new gfycat](https://developers.gfycat.com/api/#uploading-a-file-to-create-a-new-gfycat)
+  - [x] [Fetching a remote url to create a new gfycat](https://developers.gfycat.com/api/#fetching-a-remote-url-to-create-a-new-gfycat)
+  - [x] [Checking the status of your upload](https://developers.gfycat.com/api/#checking-the-status-of-your-upload)
+  - [x] [Uploading a file to create a new gfycat](https://developers.gfycat.com/api/#uploading-a-file-to-create-a-new-gfycat)
 - [ ] [Updating Gfycats](https://developers.gfycat.com/api/#updating-gfycats)
-    - [ ] Update gfycat title
-    - [ ] Delete gfycat title
-    - [ ] Update gfycat description
-    - [ ] Delete gfycat description
-    - [ ] Get gfycat likes
-    - [ ] Like a gfycat
-    - [ ] Update/replace gfycat tags
-    - [ ] Get gfycat domain whitelist
-    - [ ] Update/replace gfycat domain whitelist
-    - [ ] Get gfycat geo whitelist
-    - [ ] Update/replace geo whitelist
-    - [ ] Delete gfycat whitelist
-    - [x] Update gfycat visibility
-    - [ ] Update/replace gfycat nsfw flag
-    - [ ] Delete a gfycat
+  - [ ] Update gfycat title
+  - [ ] Delete gfycat title
+  - [ ] Update gfycat description
+  - [ ] Delete gfycat description
+  - [ ] Get gfycat likes
+  - [ ] Like a gfycat
+  - [ ] Update/replace gfycat tags
+  - [ ] Get gfycat domain whitelist
+  - [ ] Update/replace gfycat domain whitelist
+  - [ ] Get gfycat geo whitelist
+  - [ ] Update/replace geo whitelist
+  - [ ] Delete gfycat whitelist
+  - [x] Update gfycat visibility
+  - [ ] Update/replace gfycat nsfw flag
+  - [ ] Delete a gfycat
 
 #### Trending Feeds
 
