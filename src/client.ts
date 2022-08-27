@@ -15,7 +15,7 @@ export class GfycatClient {
   private readonly username: string;
   private readonly password: string;
   private readonly httpClient: Axios;
-  private readonly logger: debug.Debugger;
+  private readonly log: debug.Debugger;
   private accessToken: AuthToken | undefined;
   private refreshToken: AuthToken | undefined;
 
@@ -38,10 +38,10 @@ export class GfycatClient {
       baseURL: 'https://api.gfycat.com/v1',
     });
 
-    this.logger = debug('gfycat');
+    this.log = debug('gfycat');
 
     this.httpClient.interceptors.request.use(async (config) => {
-      this.logger.log(
+      this.log(
         [config.method?.toUpperCase(), config.url ?? config.baseURL]
           .filter(Boolean)
           .join(' | ')
@@ -75,7 +75,7 @@ export class GfycatClient {
       } catch (err) {
         // ignore any TypeErrors thrown by JSON.stringify
       }
-      this.logger.log([config.status, data].filter(Boolean).join(' | '));
+      this.log([config.status, data].filter(Boolean).join(' | '));
       return config;
     });
   }
@@ -363,7 +363,7 @@ export class GfycatClient {
       await poll();
     } catch (err) {
       if (err instanceof AxiosError && err.code === 'ECONNABORTED') {
-        this.logger.log(`status polling request timed out for gfyId ${name}`);
+        this.log(`status polling request timed out for gfyId ${name}`);
       }
     }
   };
