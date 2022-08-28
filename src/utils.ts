@@ -1,4 +1,4 @@
-export const isExpired = (ms = 0) => ms >= Date.now();
+export const isExpired = (ms = 0) => ms <= Date.now();
 
 export const sleep = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
@@ -15,7 +15,7 @@ export const stringifyQueryParams = ({
     const value = params[p]?.toString().trim();
     if (params[p] !== '' && value) {
       const separator = searchString ? '&' : '?';
-      searchString += separator + p + value;
+      searchString += separator + p + '=' + value;
     }
   }
   return url + searchString;
