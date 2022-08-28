@@ -159,7 +159,7 @@ export class GfycatClient {
     if (status === 404) {
       return false;
     }
-    if (status === 204) {
+    if (status >= 200 && status < 300) {
       return true;
     }
     return null;
@@ -176,6 +176,10 @@ export class GfycatClient {
   };
 
   /**
+   * Sends an email requesting the user to verify their email address.
+   * This sends an email regardless if the user's email is already verified. When the
+   * user has already verified their email, the verify link in the email will take the
+   * user to a page that says the link is invalid or has expired.
    * @see https://developers.gfycat.com/api/#sending-an-email-verification-request
    */
   sendEmailVerificationRequest = async () => {
@@ -214,7 +218,7 @@ export class GfycatClient {
     cursor,
   }: {
     userId: string;
-    count: number;
+    count?: number;
     cursor?: string;
   }) => {
     const url = stringifyQueryParams({
@@ -234,7 +238,7 @@ export class GfycatClient {
   }: {
     count?: number;
     cursor?: string;
-  }) => {
+  } = {}) => {
     const url = stringifyQueryParams({
       url: '/me/gfycats',
       params: {
@@ -375,9 +379,14 @@ export class GfycatClient {
     gfyId: string;
     isPublished: boolean;
   }) => {
-    await this.httpClient.put(`/me/gfycats/${gfyId}/published`, {
-      value: Number(isPublished),
-    });
+    const { status } = await this.httpClient.put(
+      `/me/gfycats/${gfyId}/published`,
+      {
+        value: Number(isPublished),
+      },
+      { validateStatus: (status) => status < 500 }
+    );
+    return status < 400;
   };
 
   getLikes = async (gfyId: string) => {
@@ -535,8 +544,9 @@ export class GfycatClient {
     if (!operations.length) {
       return;
     }
-    await this.httpClient.patch('/me', {
+    const res = await this.httpClient.patch('/me', {
       operations,
     });
+    return res.status < 400;
   };
 }
