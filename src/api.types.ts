@@ -1,8 +1,3 @@
-export type LanguageCategory = 'trending' | string;
-
-export type NsfwCode = 0 | 1 | 3;
-export type PublishedStatus = 0 | 1;
-
 export interface Gfycat {
   avgColor: string;
   content_urls: GfyContentUrls;
@@ -47,6 +42,11 @@ export interface Gfycat {
   width: number;
   isSticker: boolean;
 }
+
+export type LanguageCategory = 'trending' | string;
+
+export type PublishedStatus = 0 | 1;
+export type NsfwCode = 0 | 1 | 3;
 
 export interface GfyContentUrl {
   url: string;
@@ -118,6 +118,10 @@ export interface CollectionGfycatsResponse {
   totalCount: number;
   cursor: string;
   gfycats: Gfycat[];
+}
+
+export interface AddToMyCollectionResponse {
+  status: 'ok' | string;
 }
 
 export interface GfycatResponse {
@@ -236,7 +240,7 @@ export interface GfyCollection {
   linkText: string;
   nsfw: NsfwCode;
   parentId: string;
-  published: 0 | 1;
+  published: PublishedStatus;
   userId: string;
 }
 
@@ -244,7 +248,7 @@ export interface MyCollectionInput {
   folderName: string;
   tags?: string[];
   description?: string;
-  published: 0 | 1;
+  published: PublishedStatus;
   gfyIds?: string[];
 }
 
@@ -256,7 +260,7 @@ export interface MyCollectionResponse {
 export interface EditCollectionInput {
   folderName: string;
   tags?: string[];
-  published?: 0 | 1;
+  published?: PublishedStatus;
 }
 
 export type RemoveFromCollectionInput = string[];

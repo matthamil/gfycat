@@ -36,6 +36,7 @@ export class GfycatClient {
     this.password = password;
     this.httpClient = axios.create({
       baseURL: 'https://api.gfycat.com/v1',
+      validateStatus: (status) => status < 500,
     });
 
     this.log = debug('gfycat');
@@ -232,6 +233,47 @@ export class GfycatClient {
     return data;
   };
 
+  getAllUserGfycats = async (userId: string) => {
+    let gfycats: Gfycat.Gfycat[] = [];
+    let cursor: string | undefined | null;
+    while (cursor !== null) {
+      const { gfycats: gfys, cursor: curs } = await this.getUserGfycats({
+        userId,
+        cursor,
+      });
+      if (gfys.length) {
+        gfycats = gfycats.concat(gfys);
+      }
+      if (curs !== '' && curs) {
+        cursor = curs;
+      }
+      if (!gfys.length || !curs) {
+        cursor = null;
+      }
+    }
+    return gfycats;
+  };
+
+  getAllMyGfycats = async () => {
+    let gfycats: Gfycat.Gfycat[] = [];
+    let cursor: string | undefined | null;
+    while (cursor !== null) {
+      const { gfycats: gfys, cursor: curs } = await this.getMyGfycats({
+        cursor,
+      });
+      if (gfys.length) {
+        gfycats = gfycats.concat(gfys);
+      }
+      if (curs !== '' && curs) {
+        cursor = curs;
+      }
+      if (!gfys.length || !curs) {
+        cursor = null;
+      }
+    }
+    return gfycats;
+  };
+
   getMyGfycats = async ({
     count = 30,
     cursor,
@@ -250,6 +292,52 @@ export class GfycatClient {
     return data;
   };
 
+  searchMyGfycats = async (searchText: string) => {
+    let gfycats: Gfycat.Gfycat[] = [];
+    let related: Gfycat.Gfycat[] = [];
+    let cursor: string | undefined | null;
+    let found = 0;
+    while (cursor !== null) {
+      const url = stringifyQueryParams({
+        url: '/me/gfycats',
+        params: {
+          search_text: searchText,
+          count: 100,
+          cursor,
+        },
+      });
+      const { status, data } = await this.httpClient.get<{
+        cursor: string | null;
+        gfycats: Gfycat.Gfycat[];
+        related: Gfycat.Gfycat[];
+        found: number;
+      }>(url);
+      if (status >= 400) {
+        break;
+      }
+      const {
+        gfycats: gfys,
+        cursor: curs,
+        related: relatedGfys,
+        found: f,
+      } = data;
+      found = f;
+      if (gfys.length) {
+        gfycats = gfycats.concat(gfys);
+      }
+      if (relatedGfys.length) {
+        related = related.concat(relatedGfys);
+      }
+      if (curs !== '' && curs) {
+        cursor = curs;
+      }
+      if (!gfys.length || !curs) {
+        cursor = null;
+      }
+    }
+    return { gfycats, related, found };
+  };
+
   /**
    * Register an empty gfyname that can later have media associated with it
    */
@@ -257,10 +345,14 @@ export class GfycatClient {
     title,
     description,
     tags,
+    keepAudio = true,
+    nsfw = 0,
   }: {
     title?: string;
     description?: string;
     tags?: string[];
+    keepAudio?: boolean;
+    nsfw?: Gfycat.NsfwCode;
   }) => {
     const res = await this.httpClient.request<
       Gfycat.CreateGfycatRequest,
@@ -276,9 +368,9 @@ export class GfycatClient {
         description,
         tags,
         private: false,
-        nsfw: 0,
+        nsfw,
         noMd5: 'true',
-        keepAudio: true,
+        keepAudio,
       },
     });
     return res.data.gfyname;
@@ -287,7 +379,7 @@ export class GfycatClient {
   uploadFromUrl = async (
     url: string,
     title?: string,
-    desc?: string,
+    description?: string,
     tags?: string[]
   ) => {
     const res = await this.httpClient.request<
@@ -299,7 +391,7 @@ export class GfycatClient {
       data: {
         fetchUrl: url,
         title: title,
-        desc: desc,
+        desc: description,
         tags: tags,
         noMd5: 'true',
       },
@@ -336,8 +428,6 @@ export class GfycatClient {
       maxBodyLength: Infinity,
     });
 
-    await this.pollGfycatStatus(name, 3 * 1000);
-
     /**
      * gfycat api requires creating the empty gfycat with
      * private set to `false` and then updating the visibility
@@ -346,13 +436,14 @@ export class GfycatClient {
      * gfycat will always have "anonymous" as the uploader's username.
      */
     if (isPrivate) {
+      await this.pollGfycatStatus(name, 3 * 1000);
       await this.setVisibility({ gfyId: name, isPublished: false });
     }
 
     return name;
   };
 
-  private pollGfycatStatus = async (name: string, pollIntervalMs: number) => {
+  pollGfycatStatus = async (name: string, pollIntervalMs: number) => {
     const poll = async () => {
       const { data } = await this.httpClient.get<Gfycat.GfycatStatusResponse>(
         `/gfycats/fetch/status/${name}`
@@ -392,6 +483,105 @@ export class GfycatClient {
   getLikes = async (gfyId: string) => {
     const gfy = await this.getGfycatInfo(gfyId);
     return gfy.likes;
+  };
+
+  /**
+   * Omit `title` or set `title` to `undefined` to remove the title
+   * from the Gfycat
+   */
+  updateGfycatTitle = async ({
+    gfyId,
+    title,
+  }: {
+    gfyId: string;
+    title?: string;
+  }) => {
+    const url = `/me/gfycats/${gfyId}/title`;
+    if (title) {
+      const { status } = await this.httpClient.put(url, {
+        value: title,
+      });
+      return status < 400;
+    }
+    const { status } = await this.httpClient.delete(url);
+    return status < 400;
+  };
+
+  updateGfycatDescription = async ({
+    gfyId,
+    description,
+  }: {
+    gfyId: string;
+    description?: string;
+  }) => {
+    const url = `/me/gfycats/${gfyId}/description`;
+    if (description) {
+      const { status } = await this.httpClient.put(url, { value: description });
+      return status < 400;
+    }
+    const { status } = await this.httpClient.delete(url);
+    return status < 400;
+  };
+
+  /**
+   * "Like" or remove your "like" from your own Gfycat
+   */
+  updateMyGfycatLike = async ({
+    gfyId,
+    like,
+  }: {
+    gfyId: string;
+    like: boolean;
+  }) => {
+    const { status } = await this.httpClient.put(`/me/gfycats/${gfyId}/like`, {
+      value: like ? '1' : '0',
+    });
+    return status < 400;
+  };
+
+  /**
+   * Update/replace gfycat tags (20 tags maximum)
+   */
+  updateGfycatTags = async ({
+    gfyId,
+    tags,
+  }: {
+    gfyId: string;
+    tags: string[];
+  }) => {
+    const { status } = await this.httpClient.put(`/me/gfycats/${gfyId}/tags`, {
+      value: tags,
+    });
+    return status < 400;
+  };
+
+  getGfycatDomainWhitelist = (_gfyId: string) => {
+    throw new Error('Not implemented');
+  };
+
+  updateGfycatDomainWhitelist = (_opts: {
+    gfyId: string;
+    domainWhitelist?: string[];
+  }) => {
+    throw new Error('Not implemented');
+  };
+
+  updateGfycatNsfwStatus = async ({
+    gfyId,
+    nsfw,
+  }: {
+    gfyId: string;
+    nsfw: 0 | 1 | 3;
+  }) => {
+    const { status } = await this.httpClient.put(`/me/gfycats/${gfyId}/nsfw`, {
+      value: `${nsfw}`,
+    });
+    return status < 400;
+  };
+
+  deleteGfycat = async (gfyId: string) => {
+    const { status } = await this.httpClient.delete(`/me/gfycats/${gfyId}`);
+    return status < 400;
   };
 
   getUserCollections = async ({
@@ -439,6 +629,46 @@ export class GfycatClient {
     return data;
   };
 
+  getMyCollections = async ({
+    count = 30,
+    cursor,
+  }: {
+    count?: number;
+    cursor?: string;
+  } = {}) => {
+    const url = stringifyQueryParams({
+      url: '/me/collections',
+      params: {
+        count,
+        cursor,
+      },
+    });
+    const { data } = await this.httpClient.get<Gfycat.UserCollectionsResponse>(
+      url
+    );
+    return data;
+  };
+
+  getAllMyCollections = async () => {
+    let collections: Gfycat.GfycatCollection[] = [];
+    let cursor: string | undefined | null;
+    while (cursor !== null) {
+      const { gfyCollections, cursor: curs } = await this.getMyCollections({
+        cursor,
+      });
+      if (gfyCollections.length) {
+        collections = collections.concat(gfyCollections);
+      }
+      if (curs !== '' && curs) {
+        cursor = curs;
+      }
+      if (!gfyCollections.length || !curs) {
+        cursor = null;
+      }
+    }
+    return collections;
+  };
+
   getMyCollectionGfycats = async ({
     collectionId,
     count = 30,
@@ -460,6 +690,29 @@ export class GfycatClient {
     return data;
   };
 
+  getAllMyCollectionGfycats = async (collectionId: string) => {
+    let gfycats: Gfycat.Gfycat[] = [];
+    let cursor: string | undefined | null;
+    while (cursor !== null) {
+      const { gfycats: gfys, cursor: curs } = await this.getMyCollectionGfycats(
+        {
+          collectionId,
+          cursor,
+        }
+      );
+      if (gfys.length) {
+        gfycats = gfycats.concat(gfys);
+      }
+      if (curs !== '' && curs) {
+        cursor = curs;
+      }
+      if (!gfys.length || !curs) {
+        cursor = null;
+      }
+    }
+    return gfycats;
+  };
+
   createCollection = async (input: Gfycat.MyCollectionInput) => {
     const { data } = await this.httpClient.post<Gfycat.MyCollectionResponse>(
       '/me/collections',
@@ -475,13 +728,32 @@ export class GfycatClient {
 
   updateCollection = async (
     id: string,
-    options: { folderName?: string; tags?: string[]; published?: number }
+    options: {
+      folderName?: string;
+      tags?: string[];
+      published?: Gfycat.PublishedStatus;
+    }
   ) => {
     const { data } = await this.httpClient.patch<Gfycat.MyCollectionResponse>(
       `/me/collections/${id}`,
       options,
       {}
     );
+    return data;
+  };
+
+  updateCollectionGfycats = async ({
+    collectionId,
+    gfycatIds,
+  }: {
+    collectionId: string;
+    gfycatIds: string[];
+  }) => {
+    const { data } =
+      await this.httpClient.post<Gfycat.AddToMyCollectionResponse>(
+        `/me/collections/${collectionId}/contents`,
+        gfycatIds
+      );
     return data;
   };
 
@@ -495,6 +767,50 @@ export class GfycatClient {
       data: gfyIds,
     });
     return data;
+  };
+
+  getSavedGfycats = async ({
+    count = 30,
+    cursor,
+  }: {
+    count?: number;
+    cursor?: string;
+  }) => {
+    const url = stringifyQueryParams({
+      url: '/me/collections/saved/gfycats',
+      params: {
+        count,
+        cursor,
+      },
+    });
+    const { data } = await this.httpClient.get<{
+      count: number;
+      cursor: string | null;
+      gfycats: Gfycat.Gfycat[];
+      status: 'ok' | string;
+      totalCount: number;
+    }>(url);
+    return data;
+  };
+
+  getAllSavedGfycats = async () => {
+    let gfycats: Gfycat.Gfycat[] = [];
+    let cursor: string | undefined | null;
+    while (cursor !== null) {
+      const { gfycats: gfys, cursor: curs } = await this.getSavedGfycats({
+        cursor,
+      });
+      if (gfys.length) {
+        gfycats = gfycats.concat(gfys);
+      }
+      if (curs !== '' && curs) {
+        cursor = curs;
+      }
+      if (!gfys.length || !curs) {
+        cursor = null;
+      }
+    }
+    return gfycats;
   };
 
   getMyLikes = async ({
@@ -513,6 +829,33 @@ export class GfycatClient {
     });
     const { data } = await this.httpClient.get<Gfycat.MyLikesResponse>(url);
     return data;
+  };
+
+  getAllMyLikes = async () => {
+    let gfycats: Gfycat.Gfycat[] = [];
+    let cursor: string | undefined | null;
+    while (cursor !== null) {
+      const data = await this.getMyLikes({
+        cursor,
+      });
+      if ('errorMessage' in data) {
+        return {
+          gfycats,
+          errorMessage: data.errorMessage,
+        };
+      }
+      const { gfycats: gfys, cursor: curs } = data;
+      if (gfys.length) {
+        gfycats = gfycats.concat(gfys);
+      }
+      if (curs !== '' && curs) {
+        cursor = curs;
+      }
+      if (!gfys.length || !curs) {
+        cursor = null;
+      }
+    }
+    return { gfycats };
   };
 
   updateAccountInfo = async (options: Gfycat.UpdateAccountInfoRequest) => {
