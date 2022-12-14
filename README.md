@@ -51,23 +51,23 @@ This is a work-in-progress SDK. Not all APIs are implemented. The list of docume
 
 #### Users
 
-- [ ] [Getting a user's public details](https://developers.gfycat.com/api/#getting-the-user-s-public-details)
-- [ ] [Getting authenticated user's details](https://developers.gfycat.com/api/#getting-the-authenticated-user-s-details)
-- [ ] [Updating a user's details](https://developers.gfycat.com/api/#updating-user-39-s-details)
-- [ ] [Uploading user's profile image](https://developers.gfycat.com/api/#uploading-user-39-s-profile-image)
+- [x] [Getting a user's public details](https://developers.gfycat.com/api/#getting-the-user-s-public-details)
+- [x] [Getting authenticated user's details](https://developers.gfycat.com/api/#getting-the-authenticated-user-s-details)
+- [x] [Updating a user's details](https://developers.gfycat.com/api/#updating-user-39-s-details)
+- [x] [Uploading user's profile image](https://developers.gfycat.com/api/#uploading-user-39-s-profile-image)
 - [ ] [Creating a new user account](https://developers.gfycat.com/api/#creating-a-new-user-account)
-- [ ] [Following another user](https://developers.gfycat.com/api/#following-another-user)
-- [ ] [Unfollowing a user](https://developers.gfycat.com/api/#unfollowing-a-user)
-- [ ] [Checking if you follow a user](https://developers.gfycat.com/api/#checking-if-you-follow-a-user)
-- [ ] [List all users you follow](https://developers.gfycat.com/api/#listing-all-users-you-follow)
-- [ ] [List all users following you](https://developers.gfycat.com/api/#listing-all-users-following-you)
+- [x] [Following another user](https://developers.gfycat.com/api/#following-another-user)
+- [x] [Unfollowing a user](https://developers.gfycat.com/api/#unfollowing-a-user)
+- [x] [Checking if you follow a user](https://developers.gfycat.com/api/#checking-if-you-follow-a-user)
+- [x] [List all users you follow](https://developers.gfycat.com/api/#listing-all-users-you-follow)
+- [x] [List all users following you](https://developers.gfycat.com/api/#listing-all-users-following-you)
 - [x] Get all of your likes
 
 #### User Feeds
 
-- [ ] [Listing the the feed of published gfycats for a user](https://developers.gfycat.com/api/#listing-the-the-feed-of-published-gfycats-for-a-user)
-- [ ] [Listing the the private feed of all gfycats for a user](https://developers.gfycat.com/api/#listing-the-the-private-feed-of-all-gfycats-for-a-user)
-- [ ] [Listing the timeline feed of all users you follow](https://developers.gfycat.com/api/#listing-the-timeline-feed-of-all-users-you-follow)
+- [x] [Listing the the feed of published gfycats for a user](https://developers.gfycat.com/api/#listing-the-the-feed-of-published-gfycats-for-a-user)
+- [x] [Listing the the private feed of all gfycats for a user](https://developers.gfycat.com/api/#listing-the-the-private-feed-of-all-gfycats-for-a-user)
+- [x] [Listing the timeline feed of all users you follow](https://developers.gfycat.com/api/#listing-the-timeline-feed-of-all-users-you-follow)
 
 #### Collections
 
@@ -91,32 +91,32 @@ This is a work-in-progress SDK. Not all APIs are implemented. The list of docume
   - [x] [Checking the status of your upload](https://developers.gfycat.com/api/#checking-the-status-of-your-upload)
   - [x] [Uploading a file to create a new gfycat](https://developers.gfycat.com/api/#uploading-a-file-to-create-a-new-gfycat)
 - [ ] [Updating Gfycats](https://developers.gfycat.com/api/#updating-gfycats)
-  - [ ] Update gfycat title
-  - [ ] Delete gfycat title
-  - [ ] Update gfycat description
-  - [ ] Delete gfycat description
-  - [ ] Get gfycat likes
-  - [ ] Like a gfycat
-  - [ ] Update/replace gfycat tags
+  - [x] Update gfycat title
+  - [x] Delete gfycat title
+  - [x] Update gfycat description
+  - [x] Delete gfycat description
+  - [x] Get my gfycat like status
+  - [x] Like my gfycat
+  - [x] Update/replace gfycat tags
   - [ ] Get gfycat domain whitelist
-  - [ ] Update/replace gfycat domain whitelist
+  - [x] Update/replace gfycat domain whitelist
   - [ ] Get gfycat geo whitelist
-  - [ ] Update/replace geo whitelist
-  - [ ] Delete gfycat whitelist
+  - [x] Update/replace geo whitelist
+  - [x] Delete gfycat whitelist
   - [x] Update gfycat visibility
-  - [ ] Update/replace gfycat nsfw flag
-  - [ ] Delete a gfycat
+  - [x] Update/replace gfycat nsfw flag
+  - [x] Delete a gfycat
 
 #### Trending Feeds
 
-- [ ] [Trending Gfycats](https://developers.gfycat.com/api/#trending-gfycats)
-- [ ] [Algorithmically Trending Gfycats](https://developers.gfycat.com/api/#algorithmically-trending-gfycats)
-- [ ] [Algorithmically Trending Tags](https://developers.gfycat.com/api/#algorithmically-trending-tags)
+- [x] [Trending Gfycats](https://developers.gfycat.com/api/#trending-gfycats)
+- [x] [Algorithmically Trending Gfycats](https://developers.gfycat.com/api/#algorithmically-trending-gfycats)
+- [x] [Algorithmically Trending Tags](https://developers.gfycat.com/api/#algorithmically-trending-tags)
 
 #### Search
 
-- [ ] [Search Gfycats](https://developers.gfycat.com/api/#site-search)
-- [ ] [User account search](https://developers.gfycat.com/api/#user-account-search)
+- [x] [Search Gfycats](https://developers.gfycat.com/api/#site-search)
+- [x] [User account search](https://developers.gfycat.com/api/#user-account-search)
 
 ## Contributing
 

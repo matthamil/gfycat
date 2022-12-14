@@ -82,6 +82,39 @@ export interface GfycatsResponse {
   gfycats: Gfycat[];
 }
 
+export interface TimelineFeedResponse {
+  gfycats: Gfycat[];
+  count: number;
+  totalCount: number;
+  cursor: string;
+  status: string;
+}
+
+export interface SearchByTagGfycatsResponse {
+  cursor: string;
+  gfycats: Gfycat[];
+  tag: string;
+  tagText: string;
+}
+
+export interface CuratedTrendingGfycatsResponse
+  extends SearchByTagGfycatsResponse {
+  tag: 'trending';
+  tagText: 'trending';
+}
+
+export interface TrendingGfycatsResponse {
+  gfycats: Gfycat[];
+  cursor: string;
+  found: number;
+}
+
+export interface SearchGfycatsResponse {
+  gfycats: Gfycat[];
+  cursor: string;
+  found: number;
+}
+
 export interface GfycatCollection {
   contentCount: number;
   createDate: number;
@@ -164,6 +197,82 @@ export interface RefreshAccessTokenRequest {
   client_id: string;
   client_secret: string;
   refresh_token: string;
+}
+
+interface ErrorResponse {
+  errorMessage: string;
+}
+
+export type UserDetailsResponse =
+  | {
+      createDate: number;
+      followers: number;
+      following: number;
+      iframeProfileImageVisible: boolean;
+      name: string;
+      profileImageUrl?: string;
+      publishedAlbums: number;
+      publishedGfycats: number;
+      subscription: number;
+      url: string;
+      userid: string;
+      username: string;
+      verified: boolean;
+      views: number;
+    }
+  | ErrorResponse;
+
+export interface AuthenticatedUserResponse {
+  canonicalUsername: string;
+  consentAge: number;
+  consentTermsPrivacy: number;
+  createDate: number;
+  email: string;
+  emailVerified: boolean;
+  followers: number;
+  following: number;
+  iframeProfileImageVisible: boolean;
+  name: string;
+  publishedAlbums: number;
+  publishedGfycats: number;
+  subscription: number;
+  totalAlbums: number;
+  totalBookmarks: number;
+  totalGfycats: number;
+  url: string;
+  userid: string;
+  username: string;
+  verified: boolean;
+  viewingPreference: number;
+  views: number;
+}
+
+export interface UpdateUserDetailsOperation {
+  op: 'add' | 'remove' | 'replace';
+  path: string;
+  value?: string | string[] | boolean;
+}
+
+export interface PaginatedAllFollowingResponse {
+  follows: FollowingUser[];
+  count: number;
+  totalCount: number;
+  cursor: string;
+  status: string;
+}
+
+export interface PaginatedAllFollowersResponse {
+  followers: FollowingUser[];
+  count: number;
+  totalCount: number;
+  cursor: string;
+  status: string;
+}
+
+export interface FollowingUser {
+  user_id: string;
+  follower_id: string;
+  follow_date: number;
 }
 
 export interface EmptyGfycatResponse {
@@ -277,7 +386,7 @@ export type MyLikesResponse =
       cursor: string;
       status: string;
     }
-  | { errorMessage: string };
+  | ErrorResponse;
 
 export interface UpdateAccountInfoRequest {
   profileUrl?: string;
