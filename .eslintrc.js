@@ -15,6 +15,15 @@ module.exports = {
       rules: {
         'no-undef': 'off',
         '@typescript-eslint/no-non-null-assertion': 'off',
+        'no-unused-vars': 'off',
+        '@typescript-eslint/no-unused-vars': [
+          'error',
+          {
+            argsIgnorePattern: '^_',
+            varsIgnorePattern: '^_',
+            caughtErrorsIgnorePattern: '^_',
+          },
+        ],
       },
       parserOptions: {
         project: ['./tsconfig.eslint.json'],

@@ -1,8 +1,3 @@
-export type LanguageCategory = 'trending' | string;
-
-export type NsfwCode = 0 | 1 | 3;
-export type PublishedStatus = 0 | 1;
-
 export interface Gfycat {
   avgColor: string;
   content_urls: GfyContentUrls;
@@ -48,6 +43,11 @@ export interface Gfycat {
   isSticker: boolean;
 }
 
+export type LanguageCategory = 'trending' | string;
+
+export type PublishedStatus = 0 | 1;
+export type NsfwCode = 0 | 1 | 3;
+
 export interface GfyContentUrl {
   url: string;
   size: number;
@@ -80,6 +80,39 @@ export interface UserData {
 export interface GfycatsResponse {
   cursor: string;
   gfycats: Gfycat[];
+}
+
+export interface TimelineFeedResponse {
+  gfycats: Gfycat[];
+  count: number;
+  totalCount: number;
+  cursor: string;
+  status: string;
+}
+
+export interface SearchByTagGfycatsResponse {
+  cursor: string;
+  gfycats: Gfycat[];
+  tag: string;
+  tagText: string;
+}
+
+export interface CuratedTrendingGfycatsResponse
+  extends SearchByTagGfycatsResponse {
+  tag: 'trending';
+  tagText: 'trending';
+}
+
+export interface TrendingGfycatsResponse {
+  gfycats: Gfycat[];
+  cursor: string;
+  found: number;
+}
+
+export interface SearchGfycatsResponse {
+  gfycats: Gfycat[];
+  cursor: string;
+  found: number;
 }
 
 export interface GfycatCollection {
@@ -118,6 +151,10 @@ export interface CollectionGfycatsResponse {
   totalCount: number;
   cursor: string;
   gfycats: Gfycat[];
+}
+
+export interface AddToMyCollectionResponse {
+  status: 'ok' | string;
 }
 
 export interface GfycatResponse {
@@ -160,6 +197,82 @@ export interface RefreshAccessTokenRequest {
   client_id: string;
   client_secret: string;
   refresh_token: string;
+}
+
+interface ErrorResponse {
+  errorMessage: string;
+}
+
+export type UserDetailsResponse =
+  | {
+      createDate: number;
+      followers: number;
+      following: number;
+      iframeProfileImageVisible: boolean;
+      name: string;
+      profileImageUrl?: string;
+      publishedAlbums: number;
+      publishedGfycats: number;
+      subscription: number;
+      url: string;
+      userid: string;
+      username: string;
+      verified: boolean;
+      views: number;
+    }
+  | ErrorResponse;
+
+export interface AuthenticatedUserResponse {
+  canonicalUsername: string;
+  consentAge: number;
+  consentTermsPrivacy: number;
+  createDate: number;
+  email: string;
+  emailVerified: boolean;
+  followers: number;
+  following: number;
+  iframeProfileImageVisible: boolean;
+  name: string;
+  publishedAlbums: number;
+  publishedGfycats: number;
+  subscription: number;
+  totalAlbums: number;
+  totalBookmarks: number;
+  totalGfycats: number;
+  url: string;
+  userid: string;
+  username: string;
+  verified: boolean;
+  viewingPreference: number;
+  views: number;
+}
+
+export interface UpdateUserDetailsOperation {
+  op: 'add' | 'remove' | 'replace';
+  path: string;
+  value?: string | string[] | boolean;
+}
+
+export interface PaginatedAllFollowingResponse {
+  follows: FollowingUser[];
+  count: number;
+  totalCount: number;
+  cursor: string;
+  status: string;
+}
+
+export interface PaginatedAllFollowersResponse {
+  followers: FollowingUser[];
+  count: number;
+  totalCount: number;
+  cursor: string;
+  status: string;
+}
+
+export interface FollowingUser {
+  user_id: string;
+  follower_id: string;
+  follow_date: number;
 }
 
 export interface EmptyGfycatResponse {
@@ -236,7 +349,7 @@ export interface GfyCollection {
   linkText: string;
   nsfw: NsfwCode;
   parentId: string;
-  published: 0 | 1;
+  published: PublishedStatus;
   userId: string;
 }
 
@@ -244,7 +357,7 @@ export interface MyCollectionInput {
   folderName: string;
   tags?: string[];
   description?: string;
-  published: 0 | 1;
+  published: PublishedStatus;
   gfyIds?: string[];
 }
 
@@ -256,7 +369,7 @@ export interface MyCollectionResponse {
 export interface EditCollectionInput {
   folderName: string;
   tags?: string[];
-  published?: 0 | 1;
+  published?: PublishedStatus;
 }
 
 export type RemoveFromCollectionInput = string[];
@@ -273,7 +386,7 @@ export type MyLikesResponse =
       cursor: string;
       status: string;
     }
-  | { errorMessage: string };
+  | ErrorResponse;
 
 export interface UpdateAccountInfoRequest {
   profileUrl?: string;
